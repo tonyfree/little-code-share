@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="http://cdn.bootcss.com/element-ui/1.2.4/theme-default/index.css">
+  <link href="http://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <style>
+  pre {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  h2 {
+    text-align: center;
+  }
+  </style>
+</head>
+
+<body>
+  <h2>编程小分享03--vue组件通信</h2>
+  <div id="app">
+    <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item title="问题：" name="1">
+        <div>1. 父子组件如何通信？</div>
+        <div>2. 非父子组件(祖孙、兄弟)如何通信？</div>
+        <div>3. 单页面复杂场景下组件如何通信？</div>
+      </el-collapse-item>
+      <el-collapse-item :title="msg" name="2">
+        <div>1. 父子组件的通信
+          <p>使用prop从父组件向子组件传递数据，注意：camelCased vs kebab-case和单向数据流</p>
+          <p>使用自定义事件把数据从子组件传递给父组件，注意：用于父组件监听的自定义事件名称必须全部小写</p>
+        </div>
+        <pre>
+<code class="javascript">
+Vue.component('child', {
+  // camelCase in JavaScript
+  props: ['myMessage'],
+  template: '<span>{{ myMessage }}</span>',
+  methods: {
+    increment: function() {
+      // do something ...
+      this.$emit('incrementtotal')
+    }
+  }
+})
+
+&lt;child my-message="hello!" v-on:incrementtotal="incrementTotal"></child/>
+
+new Vue({
+  el: '#example',
+  data: {
+    total: 0
+  },
+  methods: {
+    incrementTotal: function () {
+      this.total += 1
+    }
+  }
+})
+</code>
+    </pre>
+    <div>2. 非父子组件通信：全局事件管理bus</div>
+    <pre>
+      <code class="javascript">
+// bus.js
+const bus = new Vue()
+export default bus
+
+// 组件A
+import bus from 'bus.js'
+new Vue({
+  methods: {
+    action: function() {
+      bus.$emit('eventName',value)
+    }
+  }
+})
+
+// 组件B
+import bus from 'bus.js' 
+new Vue({
+  created: function() {
+    bus.$on('eventName',function(value) {
+      // do something ...
+    })
+  }
+})       
+      </code>
+    </pre>
+    <div>3. 单页面复杂场景下组件通信: 状态管理  <a href="https://vuex.vuejs.org/zh-cn/">vuex</a></div>
+      </el-collapse-item>
+    </el-collapse>
+  </div>
+</body>
+<script src="http://cdn.bootcss.com/highlight.js/9.10.0/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+<script src="http://cdn.bootcss.com/vue/2.2.2/vue.js"></script>
+<script src="http://cdn.bootcss.com/element-ui/1.2.4/index.js"></script>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    msg: '显示代码',
+    activeNames: ['1']
+  },
+  methods: {
+    handleChange: function() {
+      if (this.activeNames.findIndex(function(val) {
+          return val === '2'
+        }) > -1) {
+        this.msg = '隐藏代码'
+      } else {
+        this.msg = '显示代码'
+      }
+    }
+  }
+})
+</script>
+
+</html>
