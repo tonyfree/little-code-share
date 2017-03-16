@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>编程小分享02--日期格式</title>
+  <link rel="stylesheet" href="http://cdn.bootcss.com/element-ui/1.2.4/theme-default/index.css">
+  <link href="http://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <style>
+  pre {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  h2 {
+    text-align: center;
+  }
+  </style>
+</head>
+
+<body>
+  <h2>编程小分享02--日期格式</h2>
+  <div id="app">
+    <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item title="问题：" name="1">
+        <div>如果传给后台的日期格式需为“2017-03-07”，怎么把当前的日期转化为这样的格式？</div>
+      </el-collapse-item>
+      <el-collapse-item :title="msg" name="2">
+        <div>方案一：正则表达式--可以达到“2017-3-7”的效果，小于10的月份和日期没有加0 
+<pre>
+  <code class="javascript">
+let date = new Date()
+let dateStr = date.toLocaleDateString().replace(/\//g,'-')    
+  </code>
+</pre>
+         
+        </div>
+        <div>方案二：数组API
+<pre>
+  <code class="javascript">
+let date = new Date()
+let arr = date.toLocaleDateString().split('/')
+arr = arr.map((item) => {
+  return parseInt(item) < 10 ? '0' + item : item
+})
+let dateStr = arr.join('-')    
+  </code>
+</pre>        
+          
+        </div>
+      </el-collapse-item>
+    </el-collapse>
+  </div>
+</body>
+<script src="http://cdn.bootcss.com/highlight.js/9.10.0/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+<script src="http://cdn.bootcss.com/vue/2.2.2/vue.js"></script>
+<script src="http://cdn.bootcss.com/element-ui/1.2.4/index.js"></script>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    msg: '显示代码',
+    activeNames: ['1']
+  },
+  methods: {
+    handleChange: function() {
+      if (this.activeNames.findIndex(function(val) {
+          return val === '2'
+        }) > -1) {
+        this.msg = '隐藏代码'
+      } else {
+        this.msg = '显示代码'
+      }
+    }
+  }
+})
+</script>
+
+</html>
