@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>编程小分享04--如何实现一个Badge</title>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/1.2.4/theme-default/index.css">
+  <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <style>
+  pre {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  h2 {
+    text-align: center;
+  }
+  </style>
+</head>
+
+<body>
+  <h2>编程小分享04--如何实现一个Badge</h2>
+  <div id="app">
+    <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item title="问题：" name="1">
+        <div>
+        <p>1. 项目中的实现方式：最多展示两位，超出用加号表示</p>
+           <img src="imgs/leishi02.jpg" alt="">
+        </div>
+        <div>
+          <p>新的需求：</p>
+          <p>1. 超过99也可以完全展示</p>
+          <p>2. 可能显示的不仅仅是数字，比如字符：new、hot等</p>
+        </div>
+
+      </el-collapse-item>
+      <el-collapse-item :title="msg" name="2">
+        <div>1. 宽度固定，badge设置为圆形
+<pre>
+  <code class="css">
+    width: 16px;
+    border-radius: 50%;
+  </code>
+</pre>          
+        </div>
+        <div>
+        设置最小宽度，圆角用固定尺寸，超过高度的50%即可
+<pre>
+  <code class="css">
+    min-width: 8px;
+    border-radius: 18px;
+  </code>
+</pre>
+参考：<p>
+  <a href="https://weui.io/#badge">weui-badge</a>
+</p>
+        </div>       
+      <p>
+        <a href="http://element.eleme.io/#/zh-CN/component/badge">element-badge</a>  同时实现了两种方式
+      </p>
+      </el-collapse-item>
+    </el-collapse>
+  </div>
+</body>
+<script src="https://cdn.bootcss.com/highlight.js/9.10.0/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+<script src="https://cdn.bootcss.com/vue/2.2.2/vue.js"></script>
+<script src="https://cdn.bootcss.com/element-ui/1.2.4/index.js"></script>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    msg: '显示代码',
+    activeNames: ['1']
+  },
+  methods: {
+    handleChange: function() {
+      if (this.activeNames.findIndex(function(val) {
+          return val === '2'
+        }) > -1) {
+        this.msg = '隐藏代码'
+      } else {
+        this.msg = '显示代码'
+      }
+    }
+  }
+})
+</script>
+
+</html>
