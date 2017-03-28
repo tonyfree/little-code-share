@@ -5,3 +5,5 @@
 2. [日期格式](https://tonyfree.github.io/little-code-share/02.html)
 3. [vue组件通信](https://tonyfree.github.io/little-code-share/03.html)
 4. [如何实现一个Badge](https://tonyfree.github.io/little-code-share/04.html)
+5. [你还在使用npm吗？试试yarn吧！](https://tonyfree.github.io/little-code-share/05.html)
+6. [如何用vue实现即时转化输入框的字母为大写？](https://tonyfree.github.io/little-code-share/06.html)
