@@ -11,6 +11,7 @@
     font-size: 16px;
     font-weight: bold;
   }
+  
   h2 {
     text-align: center;
   }
@@ -25,13 +26,7 @@
       </el-collapse-item>
       <el-collapse-item :title="msg" name="2">
         <div>要处理这个问题，首先要了解关于表单v-model其实就是一个语法糖
-<pre>
-  <code class="javascript">
-    &lt;input  v-model="something">
-    //本质上：
-    &lt;input v-bind:value="something" v-on:input="something = $event.target.value">
-  </code>
-</pre>         
+          <iframe scrolling="no" width="100%" height="300px" src="https://jsfiddle.net/tonyfree/wqowb059/embedded/html,js,result/light" frameborder="0" allowfullscreen=""></iframe>
         </div>
         <div>
           可以有两种方式来处理：1.过滤器 2.事件中处理
@@ -42,47 +37,12 @@
           <img src="imgs/uppercase.png" alt="">
           <p>
             2.x版本废弃了自带了API，需开发者自己定义和实现
-<pre>
-  <code>
-    &lt;input :value="something|upper" @input="something=$event.target.value">
-
-    new Vue({
-      data:{
-        something: ''
-      },
-      filters: {
-        upper(val){
-          return val.toLocaleUpperCase()
-        }
-      }
-    })
-  </code>
-</pre>            
           </p>
+          <iframe scrolling="no" width="100%" height="300px" src="https://jsfiddle.net/tonyfree/5vev8jt7/16/embedded/html,js,result/light" frameborder="0" allowfullscreen=""></iframe>
           <h3>事件方式</h3>
-<pre>
-  <code>
-    &lt;input :value="something" @input="upper($event.target.value)">
-
-    new Vue({
-      data:{
-        something: ''
-      },
-      methods: {
-        upper(val){
-          this.something = val.toLocaleUpperCase()
-        }
-      }
-    })
-  </code>
-</pre>    
+          <iframe scrolling="no" width="100%" height="300px" src="https://jsfiddle.net/tonyfree/43yq91ow/8/embedded/html,js,result/light" frameborder="0" allowfullscreen=""></iframe>
           <h3>简化实现</h3>
-<pre>
-  <code>
-    &lt;input :value="something.toLocaleUpperCase()" @input="something=$event.target.value"> 
-    &lt;input :value="something" @input="something=$event.target.value.toLocaleUpperCase()">    
-  </code>
-</pre>                
+          <iframe scrolling="no" width="100%" height="300px" src="https://jsfiddle.net/tonyfree/0v5zpbLn/embedded/html,js,result/light" frameborder="0" allowfullscreen=""></iframe>
         </div>
       </el-collapse-item>
     </el-collapse>
