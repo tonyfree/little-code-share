@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>编程小分享06--如何用vue实现即时转化输入框的字母为大写？</title>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/1.2.4/theme-default/index.css">
+  <link href="https://cdn.bootcss.com/highlight.js/9.10.0/styles/monokai-sublime.min.css" rel="stylesheet">
+  <style>
+  pre {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  h2 {
+    text-align: center;
+  }
+  </style>
+</head>
+
+<body>
+  <h2>编程小分享06--如何用vue实现即时转化输入框的字母为大写？</h2>
+  <div id="app">
+    <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item title="问题：如标题所示" name="1">
+      </el-collapse-item>
+      <el-collapse-item :title="msg" name="2">
+        <div>要处理这个问题，首先要了解关于表单v-model其实就是一个语法糖
+<pre>
+  <code class="javascript">
+    &lt;input  v-model="something">
+    //本质上：
+    &lt;input v-bind:value="something" v-on:input="something = $event.target.value">
+  </code>
+</pre>         
+        </div>
+        <div>
+          可以有两种方式来处理：1.过滤器 2.事件中处理
+          <h3>过滤器方式</h3>
+          <p>
+            1.x版本提供了过滤器的API
+          </p>
+          <img src="imgs/uppercase.png" alt="">
+          <p>
+            2.x版本废弃了自带了API，需开发者自己定义和实现
+<pre>
+  <code>
+    &lt;input :value="something|upper" @input="something=$event.target.value">
+
+    new Vue({
+      data:{
+        something: ''
+      },
+      filters: {
+        upper(val){
+          return val.toLocaleUpperCase()
+        }
+      }
+    })
+  </code>
+</pre>            
+          </p>
+          <h3>事件方式</h3>
+<pre>
+  <code>
+    &lt;input :value="something" @input="upper($event.target.value)">
+
+    new Vue({
+      data:{
+        something: ''
+      },
+      methods: {
+        upper(val){
+          this.something = val.toLocaleUpperCase()
+        }
+      }
+    })
+  </code>
+</pre>    
+          <h3>简化实现</h3>
+<pre>
+  <code>
+    &lt;input :value="something.toLocaleUpperCase()" @input="something=$event.target.value"> 
+    &lt;input :value="something" @input="something=$event.target.value.toLocaleUpperCase()">    
+  </code>
+</pre>                
+        </div>
+      </el-collapse-item>
+    </el-collapse>
+  </div>
+</body>
+<script src="https://cdn.bootcss.com/highlight.js/9.10.0/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+<script src="https://cdn.bootcss.com/vue/2.2.2/vue.js"></script>
+<script src="https://cdn.bootcss.com/element-ui/1.2.4/index.js"></script>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    msg: '显示代码',
+    activeNames: ['1']
+  },
+  methods: {
+    handleChange: function() {
+      if (this.activeNames.findIndex(function(val) {
+          return val === '2'
+        }) > -1) {
+        this.msg = '隐藏代码'
+      } else {
+        this.msg = '显示代码'
+      }
+    }
+  }
+})
+</script>
+
+</html>
