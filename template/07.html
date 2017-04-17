@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>编程小分享06--如何实现跨域请求？</title>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/element-ui/1.2.4/theme-default/index.css">
+  <style>
+  pre {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  </style>
+</head>
+
+<body>
+  <h2>编程小分享06--如何实现跨域请求？</h2>
+  <div id="app">
+    <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse-item title="问题：如标题所示" name="1">
+      </el-collapse-item>
+      <el-collapse-item :title="msg" name="2">
+        <p>以百度音乐API接口为例：</p>
+        <iframe width="100%" height="300" src="https://jsfiddle.net/tonyfree/81956nuf/3/embedded/js,html/dark/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+        <p>在控制台输出如下，提示产生了跨域请求：</p>
+        <img src="imgs/jsonp.png" alt="">
+        <p>axios没有提供jsonp的请求方式，jquery的ajax提供了：</p>
+        <iframe width="100%" height="300" src="https://jsfiddle.net/tonyfree/ha590w8k/1/embedded/js,html/dark/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+        <p>输入结果：</p>
+        <img src="imgs/jsonp1.png" alt="">
+        <p>整个项目如果只有一处设计到跨域，引入整个jquery就不太合适了，那还有没有其他的跨域请求方式呢，万能的github上有万能的好基友：<a href="https://bird.ioliu.cn/">Welcome to JsonBird</a></p>
+        <iframe width="100%" height="300" src="https://jsfiddle.net/tonyfree/1xm5mfha/1/embedded/js,html/dark/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+        <p>可以正常请求了，只不过在外面又套了一层数据：</p>
+        <img src="imgs/jsonp2.png" alt="">
+      </el-collapse-item>
+    </el-collapse>
+  </div>
+</body>
+<script src="https://cdn.bootcss.com/highlight.js/9.10.0/highlight.min.js"></script>
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+<script src="https://cdn.bootcss.com/vue/2.2.2/vue.js"></script>
+<script src="https://cdn.bootcss.com/element-ui/1.2.4/index.js"></script>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    msg: '显示代码',
+    activeNames: ['1']
+  },
+  methods: {
+    handleChange: function() {
+      if (this.activeNames.findIndex(function(val) {
+          return val === '2'
+        }) > -1) {
+        this.msg = '隐藏代码'
+      } else {
+        this.msg = '显示代码'
+      }
+    }
+  }
+})
+</script>
+
+</html>
